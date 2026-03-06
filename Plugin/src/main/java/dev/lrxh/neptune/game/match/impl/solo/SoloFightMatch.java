@@ -146,6 +146,7 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
             String divisionName = winnerData.get(getKit()).getDivision() != null ? winnerData.get(getKit()).getDivision().getDisplayName() : "None";
 
             winner.sendTitle(
+                   playSound(SoundsLocale.getSound(SoundsLocale.RANKUP));
                     CC.color(MessagesLocale.RANKUP_TITLE_HEADER.getString().replace("<division>", divisionName)),
                     CC.color(MessagesLocale.RANKUP_TITLE_FOOTER.getString().replace("<division>", divisionName)),
                     40);
@@ -300,6 +301,7 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
         setState(MatchState.IN_ROUND);
         showPlayerForSpectators();
         playSound(SoundsLocale.getSound(SoundsLocale.MATCH_START));
+        playSound(SoundsLocale.getSound(SoundsLocale.MATCH_START2));
         sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_HEADER.getString()),
                 CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 20);
     }
