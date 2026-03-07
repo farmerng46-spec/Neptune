@@ -76,12 +76,14 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
 
         winner.sendTitle(CC.color(MessagesLocale.MATCH_WINNER_TITLE_HEADER.getString()),
                 CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>",
+                playSound(SoundsLocale.getSound(SoundsLocale.MATCH_VICTORY));
                         MessagesLocale.MATCH_YOU.getString())),
                 100);
 
         if (!loser.isLeft() && !loser.isDisconnected())
             loser.sendTitle(CC.color(MessagesLocale.MATCH_LOSER_TITLE_HEADER.getString()),
                     CC.color(MessagesLocale.MATCH_LOSER_TITLE_FOOTER.getString().replace("<player>",
+                    playSound(SoundsLocale.getSound(SoundsLocale.MATCH_LOSE));
                             winner.getNameUnColored())),
                     100);
 
@@ -150,6 +152,7 @@ public class SoloFightMatch extends Match implements ISoloFightMatch {
                     CC.color(MessagesLocale.RANKUP_TITLE_HEADER.getString().replace("<division>", divisionName)),
                     CC.color(MessagesLocale.RANKUP_TITLE_FOOTER.getString().replace("<division>", divisionName)),
                     40);
+                    playSound(SoundsLocale.getSound(SoundsLocale.BED_BROKEN));
 
             winner.sendMessage(MessagesLocale.RANKUP_MESSAGE, Placeholder.parsed("division", divisionName));
         }
