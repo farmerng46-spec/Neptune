@@ -7,6 +7,7 @@ import dev.lrxh.neptune.game.kit.impl.KitRule;
 import dev.lrxh.neptune.utils.menu.Button;
 import dev.lrxh.neptune.utils.menu.Filter;
 import dev.lrxh.neptune.utils.menu.Menu;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -26,5 +27,10 @@ public class QueueMenu extends Menu {
             buttons.add(new QueueSelectButton(kit.getSlot(), kit));
         }
         return buttons;
+    }
+
+    @Override
+    public void onOpen(Player player) {
+        player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1.0f, 1.0f);
     }
 }
