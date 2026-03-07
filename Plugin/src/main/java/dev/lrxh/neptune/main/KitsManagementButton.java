@@ -21,6 +21,6 @@ public class KitsManagementButton extends Button {
 
     @Override
     public ItemStack getItemStack(Player player) {
-        return new ItemBuilder(Material.DIAMOND_AXE).name("&9Kits Management").lore("&7Click to manage all kits").build();
+        return new ItemBuilder(Material.DIAMOND_AXE).name("&9ᴋɪᴛs ᴍᴀɴᴀɢᴇᴍᴇɴᴛ").lore("&7ᴄʟɪᴄᴋ ᴛᴏ ᴠɪᴇᴡ").build();
     }
 }
