@@ -12,14 +12,22 @@ import dev.lrxh.neptune.utils.menu.Button;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
 
 public class QueueSelectButton extends Button {
+    
+    private static final Map<UUID, Long> COOLDOWNS = new HashMap<>();
+    private static final long COOLDOWN_MS = 500; 
+
     private final Kit kit;
 
     public QueueSelectButton(int slot, Kit kit) {
@@ -30,10 +38,8 @@ public class QueueSelectButton extends Button {
     @Override
     public ItemStack getItemStack(Player player) {
         List<String> lore = new ArrayList<>();
-
         MenusLocale.QUEUE_SELECT_LORE.getStringList().forEach(line -> {
             String[] split = line.split("_");
-
             if (split.length != 3) {
                 lore.add(line);
                 return;
@@ -43,16 +49,12 @@ public class QueueSelectButton extends Button {
                 lore.add(line);
                 return;
             }
-
             List<PlayerEntry> leaderboard = LeaderboardService.get().getPlayerEntries(kit, leaderboardType);
-
             int i = Integer.parseInt(split[2]);
             PlayerEntry playerEntry = null;
-
             if (i <= leaderboard.size()) {
                 playerEntry = LeaderboardService.get().getLeaderboardSlot(kit, leaderboardType, i);
             }
-
             if (playerEntry == null) {
                 line = line.replaceAll("<player_" + split[1] + "_" + i + ">", "???");
                 line = line.replaceAll("<value" + split[1] + "_" + i + ">", "???");
@@ -60,10 +62,8 @@ public class QueueSelectButton extends Button {
                 line = line.replaceAll("<player_" + split[1] + "_" + i + ">", playerEntry.getUsername());
                 line = line.replaceAll("<value" + split[1] + "_" + i + ">", String.valueOf(playerEntry.getValue()));
             }
-
             lore.add(line);
         });
-
 
         return new ItemBuilder(kit.getIcon()).name(MenusLocale.QUEUE_SELECT_KIT_NAME.getString().replace("<kit>", kit.getDisplayName()))
                 .lore(lore, TagResolver.resolver(
@@ -77,6 +77,17 @@ public class QueueSelectButton extends Button {
 
     @Override
     public void onClick(ClickType type, Player player) {
+        UUID uuid = player.getUniqueId();
+        long now = System.currentTimeMillis();
+
+        if (COOLDOWNS.containsKey(uuid) && (now - COOLDOWNS.get(uuid) < COOLDOWN_MS)) {
+            return; 
+        }
+
+        COOLDOWNS.put(uuid, now);
+
+        player.playSound(player.getLocation(), Sound.BLOCK_WOODEN_DOOR_OPEN, 1.0f, 1.0f);
+
         QueueService.get().add(new QueueEntry(kit, player.getUniqueId()), true);
         player.closeInventory();
     }
