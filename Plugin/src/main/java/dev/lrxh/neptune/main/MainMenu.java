@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MainMenu extends Menu {
     public MainMenu() {
-        super("&eNeptune Settings", 27, Filter.FILL);
+        super("&8sᴇᴛᴛɪɴɢs", 27, Filter.FILL);
     }
 
     @Override
