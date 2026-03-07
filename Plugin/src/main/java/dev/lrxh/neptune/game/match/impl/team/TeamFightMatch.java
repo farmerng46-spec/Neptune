@@ -77,9 +77,11 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
 
         winnerTeam.sendTitle(CC.color(MessagesLocale.MATCH_WINNER_TITLE_HEADER.getString()),
                 CC.color(MessagesLocale.MATCH_WINNER_TITLE_FOOTER.getString().replace("<player>", MessagesLocale.MATCH_YOU.getString())), 100);
-
+                playSound(SoundsLocale.getSound(SoundsLocale.MATCH_VICTORY));
+ 
         loserTeam.sendTitle(CC.color(MessagesLocale.MATCH_LOSER_TITLE_HEADER.getString()),
                 CC.color(MessagesLocale.MATCH_LOSER_TITLE_FOOTER.getString().replace("<player>", MessagesLocale.MATCH_OPPONENT_TEAM.getString())), 100);
+                 playSound(SoundsLocale.getSound(SoundsLocale.MATCH_LOSE));
 
         loser.playKillEffect();
 
@@ -187,6 +189,7 @@ public class TeamFightMatch extends Match implements ITeamFightMatch {
         setState(MatchState.IN_ROUND);
         showPlayerForSpectators();
         playSound(SoundsLocale.getSound(SoundsLocale.MATCH_START));
+        playSound(SoundsLocale.getSound(SoundsLocale.MATCH_START2));
         sendTitle(CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), CC.color(MessagesLocale.MATCH_START_TITLE_FOOTER.getString()), 10);
     }
 
