@@ -18,7 +18,7 @@ import dev.lrxh.neptune.utils.tasks.TaskScheduler;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
-import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -99,8 +99,6 @@ public class QueueCheckTask extends NeptuneRunnable {
                         Placeholder.parsed("arena", arena.getDisplayName()),
                         Placeholder.unparsed("opponent", participant2.getNameUnColored()),
                         Placeholder.unparsed("opponent-ping", String.valueOf(ping2)),
-                        Placeholder.unparsed("opponent-elo", String.valueOf(profile2.getGameData().get(kit).getElo())),
-                        Placeholder.unparsed("elo", String.valueOf(profile1.getGameData().get(kit).getElo())),
                         Placeholder.unparsed("ping", String.valueOf(ping1))));
 
                 MessagesLocale.MATCH_FOUND.send(uuid2, TagResolver.resolver(
@@ -108,9 +106,10 @@ public class QueueCheckTask extends NeptuneRunnable {
                         Placeholder.parsed("arena", arena.getDisplayName()),
                         Placeholder.unparsed("opponent", participant1.getNameUnColored()),
                         Placeholder.unparsed("opponent-ping", String.valueOf(ping1)),
-                        Placeholder.unparsed("opponent-elo", String.valueOf(profile1.getGameData().get(kit).getElo())),
-                        Placeholder.unparsed("elo", String.valueOf(profile2.getGameData().get(kit).getElo())),
                         Placeholder.unparsed("ping", String.valueOf(ping2))));
+
+                player1.playSound(player1.getLocation(), Sound.BLOCK_TRIAL_SPAWNER_EJECT_ITEM, 1.0f, 1.0f);
+                player2.playSound(player2.getLocation(), Sound.BLOCK_TRIAL_SPAWNER_EJECT_ITEM, 1.0f, 1.0f);
 
                 TaskScheduler.get().startTaskCurrentTick(new NeptuneRunnable() {
                     @Override
@@ -122,5 +121,4 @@ public class QueueCheckTask extends NeptuneRunnable {
             });
         }
     }
-
 }
