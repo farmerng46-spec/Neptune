@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class MatchEndRunnable extends NeptuneRunnable {
     private final Match match;
-    private int endTimer = 3;
+    private int endTimer = 5;
 
     public MatchEndRunnable(Match match) {
         this.match = match;
